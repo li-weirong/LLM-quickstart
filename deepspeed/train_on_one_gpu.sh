@@ -24,12 +24,12 @@ pip install git+https://github.com/huggingface/transformers
 
 
 # DeepSpeed ZeRO-2 模式单 GPU 训练翻译模型（T5-Small）
-deepspeed --num_gpus=1 translation/run_translation.py \
+deepspeed --num_gpus=2 translation/run_translation.py \
 --deepspeed config/ds_config_zero2.json \
---model_name_or_path t5-small --per_device_train_batch_size 1 \
---output_dir output_dir --overwrite_output_dir --fp16 \
+--model_name_or_path /data/models/google-t5/t5-small --per_device_train_batch_size 1 \
+--output_dir t5-small-output --overwrite_output_dir \
 --do_train --max_train_samples 500 --num_train_epochs 1 \
---dataset_name wmt16 --dataset_config "ro-en" \
+--dataset_name /data/datasets/wmt16/wmt16.py --dataset_config "ro-en" \
 --source_lang en --target_lang ro
 
 # DeepSpeed ZeRO-2 模式单 GPU 训练翻译模型（T5-Large）
@@ -49,12 +49,14 @@ deepspeed --num_gpus=1 translation/run_translation.py \
 
 
 # DeepSpeed ZeRO-3 模式单 GPU 训练翻译模型（T5-Large）
-deepspeed --num_gpus=1 translation/run_translation.py \
+deepspeed --num_gpus=2 translation/run_translation.py \
 --deepspeed config/ds_config_zero3.json \
---model_name_or_path t5-3b --per_device_train_batch_size 1 \
---output_dir output_dir --overwrite_output_dir --fp16 \
+--model_name_or_path /data/models/google-t5/t5-large \
+--per_device_train_batch_size 1 \
+--per_device_eval_batch_size 4 \
+--output_dir t5-large-output --overwrite_output_dir \
 --do_train --max_train_samples 500 --num_train_epochs 1 \
---dataset_name wmt16 --dataset_config "ro-en" \
+--dataset_name /data/datasets/wmt16/wmt16.py --dataset_config "ro-en" \
 --source_lang en --target_lang ro
 
 

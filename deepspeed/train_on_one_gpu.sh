@@ -59,6 +59,17 @@ deepspeed --num_gpus=2 translation/run_translation.py \
 --dataset_name /data/datasets/wmt16/wmt16.py --dataset_config "ro-en" \
 --source_lang en --target_lang ro
 
+# DeepSpeed ZeRO-3 模式双 GPU 训练翻译模型（T5-3b）
+# DeepSpeed Configuration JSON配置参考： https://www.deepspeed.ai/docs/config-json
+deepspeed --num_gpus=2 translation/run_translation.py \
+--deepspeed config/ds_config_zero3.json \
+--model_name_or_path /data/models/google-t5/t5-3b \
+--per_device_train_batch_size 1 \
+--per_device_eval_batch_size 4 \
+--output_dir t5-3b-output --overwrite_output_dir \
+--do_train --max_train_samples 500 --num_train_epochs 1 \
+--dataset_name /data/datasets/wmt16/wmt16.py --dataset_config "ro-en" \
+--source_lang en --target_lang ro
 
 
 # 直接使用 Python 命令启动 ZeRO-2 模式单 GPU 训练翻译模型（T5-Small）
